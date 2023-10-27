@@ -36,4 +36,4 @@ while driver.title != 'Philosophy - Wikipedia':
     else:
         print("No clickable link found.")
         driver.quit()
-        breakse
+        break
