@@ -1,0 +1,19 @@
+= Dokumentation Wiki Game
+
+== Allgemeines
+Der Testautomat ist in Python geschrieben und verwentet den Selenium Webdriver für die Testautomatisierung.
+Der Testautomat testet aktuell im englischen Wikipedia, es ist aber möglich in anderen Sprachen zu testen.
+
+=== Voraussetzungen
+* Python (getestet mit Verison 3.12, auch ältere Versionen sollten kompatibel sein)
+* Selenium für Python
+* Google Chrome oder ein anderer Browser, der mit Selenium kompatibel ist
+
+== Ablauf eines Testdurchlaufes
+Zuerst wird der Selenium Webdriver initialisiert und öffnet eine zufällige Seite auf Wikipedia über die URL https://en.wikipedia.org/wiki/Special:Random. Danach startet ein Loop, der den ersten Link auf der aktuellen Seite sucht und anklickt, bis die Seite 'Philosophy' offen ist. Die Abbruchbedingung wird über den Titel der Seite geprüft.
+
+=== Finden des ersten Links
+Alle Wikipedia-Seiten haben den Inhalt in einem Element mit der ID 'mw-content-text' und in diesem Element werden alle Paragraphen (HTML-Tag <p>) nach Links durchsucht. Tabellen wie das Inhaltsverzeichnis werden von der Suche ausgeschlossen. In den verbleibenden Paragraphen werden nun alle Links (HTML-Tag <a>) geladen. Um den ersten für das Spiel gültigen Link im Text zu finden, müssen einige Links ignoriert werden.
+Eine Bedingung ist, dass kursive Links nicht gültig sind. Dafür wird im Inhalt nach kursiven Elementen gesucht und alle Links, die in einem kursiven Element enthalten sind, werden ignoriert.
+Links in Klammern zu finden ist schwieriger, da Klammern nicht durch ein HTML-Tag gefunden werden können. Es wurde so gelöst, dass im Parent-Element der Links geprüft wird, ob vor dem Link mehr offene '(' als geschlossene ')' vorhanden sind. So können Links in Klammern gefiltert werden.
+Aus den verbleibenden Links wird der erste ausgewählt.
